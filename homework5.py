@@ -7,6 +7,7 @@ print(mutable_list)
 mutable_list[0] = 9
 print(mutable_list)
 # 3
-immutable_var[0] = 3
+# immutable_var[0] = 3 Объект «кортеж» не поддерживает назначение элементов.
+# Также у типа tuple нет методов для добавления и удаления элементов
 
 
