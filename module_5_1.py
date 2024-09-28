@@ -5,7 +5,7 @@ class house:
 
     def go_to(self, new_floor):
         floor = 0
-        print(f'Здание {self.name} имеет {self.number_of_floors} этажей: Поднимаемся на {new_floor} этаж')
+        print(f'Здание {self.name} высотой {self.number_of_floors} этажей: Поднимаемся на {new_floor} этаж')
         if new_floor < 1 or new_floor > self.number_of_floors:
             print(f'{new_floor} - такого этажа не существует')
         else:
