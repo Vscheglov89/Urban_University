@@ -38,11 +38,17 @@ class Bank:
     def deposit(self):
         for _ in range(100):
             amount = random.randint(50, 500)
-            with self.lock:
-                self.balance += amount
-                if self.balance >= 500 and self.lock.locked():
-                    self.lock.release()
-                print(f'Пополнение: {amount}. Баланс: {self.balance} ')
+            if self.lock.acquire(blocking=False):
+                try:
+                    self.balance += amount
+                    print(f'Пополнение: {amount}. Баланс: {self.balance}')
+                    if self.balance >= 500:
+                        self.lock.release()
+                finally:
+                    if self.lock.locked():
+                        self.lock.release()
+            else:
+                print(f'Пополнение {amount} отложено')
             time.sleep(0.001)  # имитация времени пополнения
 
     def take(self):
@@ -55,7 +61,6 @@ class Bank:
                     print(f'Снятие: {amount}. Баланс: {self.balance}')
                 else:
                     print('Запрос отклонён, недостаточно средств')
-                    self.lock.acquire()  # блокировка потока
             time.sleep(0.001) # имитация времени снятия
 
 # Создаем экземпляр класса Bank и два потока для его методов deposit и take
